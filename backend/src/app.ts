@@ -1,11 +1,17 @@
 import express from "express";
+import authRoutes from "./routes/auth.routes.js";
+import { PORT } from "./config/env.js";
+import boardRoutes from "./routes/board.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(express.json());
 
-app.listen(3001, () => {
-  console.log(`Server is running on the port http://localhost:3001`);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/boards", boardRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on the port http://localhost:${PORT}`);
 });
