@@ -1,4 +1,12 @@
+import useAuth from "../hooks/useAuth";
+import useField from "../hooks/useField";
+
 const SignIn = () => {
+  const { signIn } = useAuth();
+
+  const email = useField();
+  const password = useField();
+
   return (
     <div className="flex items-center justify-center mt-10 m-auto flex-col">
       <h2 className="text-4xl font-semibold">Sign in to your account</h2>
@@ -9,7 +17,13 @@ const SignIn = () => {
         </a>
       </span>
 
-      <form className="flex flex-col w-110 border-gray-300 mt-4 border shadow rounded p-6 gap-2">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          signIn({ email: email.value, password: password.value });
+        }}
+        className="flex flex-col w-110 border-gray-300 mt-4 border shadow rounded p-6 gap-2"
+      >
         <label htmlFor="email" className="text-lg font-semibold">
           Email address
         </label>
@@ -18,6 +32,7 @@ const SignIn = () => {
           type="text"
           id="email"
           placeholder="Enter your email..."
+          {...email}
         />
 
         <label htmlFor="password" className="text-lg font-semibold">
@@ -28,11 +43,17 @@ const SignIn = () => {
           type="password"
           id="password"
           placeholder="Enter your password..."
+          {...password}
         />
 
         <div className="flex justify-between items-center">
           <div>
-            <input type="checkbox" id="remember" className="mr-2" />
+            <input
+              type="checkbox"
+              id="remember"
+              className="mr-2"
+              
+            />
             <label htmlFor="remember">Remember me</label>
           </div>
           <button type="button" className="underline cursor-pointer">

@@ -13,8 +13,8 @@ export const signUp = async (req, res, next) => {
         .json({ success: false, message: "email or password is missing" });
     }
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (user) {
       return res
         .status(409)
         .json({ success: false, message: "email is existing" });
@@ -50,24 +50,21 @@ export const signIn = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (!existingUser) {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
       return res
         .status(404)
         .json({ success: false, message: "user not found" });
     }
 
-    const passwordCorrect = await bcrypt.compare(
-      password,
-      existingUser.password,
-    );
+    const passwordCorrect = await bcrypt.compare(password, user.password);
     if (!passwordCorrect) {
       return res
         .status(404)
         .json({ success: false, message: "invalid password" });
     }
 
-    const token = jwt.sign({ userId: existingUser.id }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
       expiresIn: JWT_EXPERIES,
     });
 
@@ -75,7 +72,7 @@ export const signIn = async (req, res, next) => {
       success: true,
       data: {
         token,
-        existingUser,
+        user,
       },
     });
   } catch (error) {

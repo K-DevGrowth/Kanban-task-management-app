@@ -1,16 +1,19 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signIn, signUp } from "../services/authService";
 import { useLoggedUser } from "./useLoggedUser";
+import { saveToken } from "../services/tokenStorage";
 
 const useAuth = () => {
-  const { user } = useLoggedUser();
+  const { setUser } = useLoggedUser();
 
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const signInMutation = useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
+      setUser(data);
+      saveToken();
     },
   });
 
@@ -22,8 +25,8 @@ const useAuth = () => {
   });
 
   return {
-    user: user,
-    signIn: (userObject) => signInMutation.mutate(userObject),
+    signIn: ({ email, password, checkbox }) =>
+      signInMutation.mutate({ email, password, checkbox }),
     signUp: (userObject) => signUpMutation.mutate(userObject),
   };
 };

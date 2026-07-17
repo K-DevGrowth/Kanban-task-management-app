@@ -5,7 +5,7 @@ export const signUp = async (userObject: {
   password: string;
   name: string;
 }) => {
-  const res = await fetch(baseUrl, {
+  const res = await fetch(`${baseUrl}/sign-up`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userObject),
@@ -22,7 +22,7 @@ export const signIn = async (userObject: {
   email: string;
   password: string;
 }) => {
-  const res = await fetch(baseUrl, {
+  const res = await fetch(`${baseUrl}/sign-in`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userObject),
