@@ -5,12 +5,10 @@ import { prisma } from "../lib/prisma";
 export const authorize = async (req, res, next) => {
   try {
     let token;
+    const authHeader = req.headers.authorization;
 
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer ")
-    ) {
-      token = req.headers.authorization.split(" ")[1];
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
     }
 
     if (!token) return res.status(401).json({ message: "Unauthorized" });
@@ -29,6 +27,7 @@ export const authorize = async (req, res, next) => {
 
     next();
   } catch (error: unknown) {
-    res.status(401).json({ message: "Unauthorized", error: error.message });
+    const message = error instanceof Error ? error.message : "Unknown error";
+    res.status(401).json({ message: "Unauthorized", error: message });
   }
 };

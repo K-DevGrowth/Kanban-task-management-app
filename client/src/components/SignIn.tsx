@@ -1,11 +1,13 @@
 import useAuth from "../hooks/useAuth";
 import useField from "../hooks/useField";
+import useChecked from "../hooks/useChecked.ts";
 
 const SignIn = () => {
   const { signIn } = useAuth();
 
   const email = useField();
   const password = useField();
+  const remember = useChecked();
 
   return (
     <div className="flex items-center justify-center mt-10 m-auto flex-col">
@@ -20,7 +22,7 @@ const SignIn = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          signIn({ email: email.value, password: password.value });
+          signIn({ email: email.value, password: password.value, remember: remember.checked });
         }}
         className="flex flex-col w-110 border-gray-300 mt-4 border shadow rounded p-6 gap-2"
       >
@@ -52,7 +54,7 @@ const SignIn = () => {
               type="checkbox"
               id="remember"
               className="mr-2"
-              
+              {...remember}
             />
             <label htmlFor="remember">Remember me</label>
           </div>

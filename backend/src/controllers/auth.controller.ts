@@ -13,8 +13,8 @@ export const signUp = async (req, res, next) => {
         .json({ success: false, message: "email or password is missing" });
     }
 
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (user) {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
       return res
         .status(409)
         .json({ success: false, message: "email is existing" });
@@ -34,11 +34,13 @@ export const signUp = async (req, res, next) => {
       expiresIn: JWT_EXPERIES,
     });
 
+    const { password: _, ...safeUser } = user;
+
     res.status(201).json({
       success: true,
       data: {
         token,
-        user,
+        user: safeUser,
       },
     });
   } catch (error) {
@@ -68,11 +70,13 @@ export const signIn = async (req, res, next) => {
       expiresIn: JWT_EXPERIES,
     });
 
+    const { password: _, ...safeUser } = user;
+
     res.status(200).json({
       success: true,
       data: {
         token,
-        user,
+        user: safeUser,
       },
     });
   } catch (error) {
@@ -81,3 +85,20 @@ export const signIn = async (req, res, next) => {
 };
 
 export const signOut = async (req, res, next) => {};
+
+export const forgotPassword = async (req, res, next) => {};
+
+export const getMe = async (req, res, next) => {
+  try {
+    const { password: _, ...safeUser } = req.user;
+
+    res.status(200).json({
+      success: true,
+      data: {
+        user: safeUser,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -1,8 +1,11 @@
+import { useState } from "react";
 import useBoards from "../hooks/useBoard";
 import BoardListItem from "./BoardListItem";
+import BoardForm from "./BoardForm";
 
 const BoardList = () => {
-  const { boards, isPending, isError } = useBoards();
+  const [isOpen, setIsOpen] = useState(false);
+  const { boards, isPending, isError, createBoard } = useBoards();
 
   if (isPending) return "loading...";
 
@@ -15,6 +18,10 @@ const BoardList = () => {
           <BoardListItem key={board.id} board={board} />
         ))}
       </ul>
+      <button type="button" onClick={() => setIsOpen(!isOpen)}>
+        +Create New Board
+      </button>
+      {isOpen && <BoardForm />}
     </div>
   );
 };

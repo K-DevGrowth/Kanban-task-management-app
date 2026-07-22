@@ -6,7 +6,6 @@ const Sidebar = () => {
       <h1 className="text-3xl p-4">Kanban</h1>
       <p>ALL BOARDS (1)</p>
       <BoardList />
-      <button type="button">+Create New Board</button>
     </div>
   );
 };

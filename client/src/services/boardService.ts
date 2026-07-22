@@ -9,3 +9,17 @@ export const getAll = async () => {
 
   return res.json();
 };
+
+export const create = async (payload) => {
+  const res = await fetch(baseUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create board");
+  }
+
+  return res.json();
+};

@@ -34,3 +34,17 @@ export const signIn = async (userObject: {
 
   return res.json();
 };
+
+export const getMe = async (token: string) => {
+  const res = await fetch(`${baseUrl}/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to get your account");
+  }
+
+  return res.json();
+};
