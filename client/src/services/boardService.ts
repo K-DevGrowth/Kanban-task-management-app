@@ -6,14 +6,26 @@ export const getAll = async () => {
   if (!res.ok) {
     throw new Error("Failed to get boards");
   }
+  return res.json();
+};
+
+export const getOne = async (id: string) => {
+  const res = await fetch(`${baseUrl}/${id}`);
+
+  if (!res.ok) {
+    throw new Error("Failed to get board");
+  }
 
   return res.json();
 };
 
-export const create = async (payload) => {
+export const create = async (payload, token: string) => {
   const res = await fetch(baseUrl, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(payload),
   });
 

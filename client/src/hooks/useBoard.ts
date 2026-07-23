@@ -1,26 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { create, getAll } from "../services/boardService";
+import { useQuery } from "@tanstack/react-query";
+import { getOne } from "../services/boardService";
 
-const useBoard = () => {
-  const queryClient = useQueryClient();
-
+const useBoard = ({ boardId }) => {
   const result = useQuery({
-    queryKey: ["boards"],
-    queryFn: getAll,
-  });
-
-  const createBoardMutation = useMutation({
-    mutationFn: create,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["boards"] });
-    },
+    queryKey: ["board", boardId],
+    queryFn: () => getOne(boardId),
   });
 
   return {
-    boards: result.data,
-    isPending: result.isPending,
+    board: result.data,
     isError: result.isError,
-    createBoard: (payload) => createBoardMutation.mutate(payload),
+    isPending: result.isPending,
   };
 };
 

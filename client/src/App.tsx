@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router-dom";
 import Board from "./components/Board";
 import Sidebar from "./components/Sidebar";
 import SignIn from "./components/SignIn";
@@ -16,14 +17,25 @@ const App = () => {
 
   return (
     <div className="flex w-full relative">
-      {user ? (
-        <>
-          <Sidebar />
-          <Board />
-        </>
-      ) : (
-        <SignIn />
-      )}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Sidebar />
+            </>
+          }
+        />
+        <Route
+          path={`/boards/:boardId`}
+          element={
+            <>
+              <Sidebar />
+              <Board />
+            </>
+          }
+        />
+      </Routes>
     </div>
   );
 };

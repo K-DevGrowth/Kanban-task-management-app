@@ -1,11 +1,11 @@
 import { useLoggedUser } from "../hooks/useLoggedUser";
 
-const BoardHeader = () => {
+const BoardHeader = ({ board }) => {
   const { user } = useLoggedUser();
 
   return (
     <header className="flex justify-between items-center border p-4">
-      <p>Name board</p>
+      <p>{board.title}</p>
       <div className="*:px-3">
         <button type="button">+Add New Task</button>
         {user ? (

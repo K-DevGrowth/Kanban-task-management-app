@@ -1,11 +1,11 @@
 import { useState } from "react";
-import useBoards from "../hooks/useBoard";
 import BoardListItem from "./BoardListItem";
 import BoardForm from "./BoardForm";
+import useBoards from "../hooks/useBoards";
 
 const BoardList = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { boards, isPending, isError, createBoard } = useBoards();
+  const { boards, isPending, isError } = useBoards();
 
   if (isPending) return "loading...";
 

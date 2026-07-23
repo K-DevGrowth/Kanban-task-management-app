@@ -1,13 +1,15 @@
-import useBoard from "../hooks/useBoard";
+import useBoards from "../hooks/useBoards";
 import useField from "../hooks/useField";
+import { getToken } from "../services/tokenStorage";
 
 const BoardForm = () => {
-  const { createBoard } = useBoard();
+  const { createBoard } = useBoards();
   const title = useField();
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    createBoard({ title: title.value });
+    const token = getToken();
+    createBoard({ title: title.value, token });
   };
 
   return (
