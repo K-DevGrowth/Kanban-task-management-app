@@ -1,7 +1,14 @@
 import { prisma } from "../lib/prisma.js";
 
 export const getAll = async (req, res, next) => {
-  const columns = await prisma.column.findMany({ include: { tasks: true } });
+  const { boardId } = req.params;
+
+  const columns = await prisma.column.findMany({
+    where: { boardId },
+    include: { tasks: true },
+    orderBy: { order: "asc" },
+  });
+  
   res.status(200).json({
     success: true,
     data: columns,
@@ -14,7 +21,7 @@ export const getOne = async (req, res, next) => {
   });
 
   if (!column) {
-    return res.status(404).json({ error: "column not found" });
+    return res.status(404).json({ error: "Column not found" });
   }
 
   res.status(200).json({
@@ -25,7 +32,12 @@ export const getOne = async (req, res, next) => {
 
 export const create = async (req, res, next) => {
   try {
-    const { title, boardId } = req.body;
+    const { boardId } = req.params;
+    const { title } = req.body;
+
+    if (!title || typeof title !== "string" || !title.trim()) {
+      return res.status(400).json({ error: "Title is missing" });
+    }
 
     const board = await prisma.board.findUnique({
       where: { id: boardId },
@@ -56,7 +68,7 @@ export const create = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(500).json({ message: "Error server" });
+    res.status(500).json({ message: error.message });
   }
 };
 

@@ -1,3 +1,5 @@
+import { getToken } from "./tokenStorage";
+
 const baseUrl = "/api/boards";
 
 export const getAll = async () => {
@@ -19,7 +21,9 @@ export const getOne = async (id: string) => {
   return res.json();
 };
 
-export const create = async (payload, token: string) => {
+export const create = async (payload) => {
+  const token = getToken();
+
   const res = await fetch(baseUrl, {
     method: "POST",
     headers: {

@@ -8,12 +8,11 @@ import {
 } from "../controllers/column.controller.js";
 import { authorize } from "../middleware/auth.middleware.js";
 
-const columnRoutes = Router();
+export const columnListRoutes = Router({ mergeParams: true });
+columnListRoutes.get("/", getAll);
+columnListRoutes.post("/", authorize, create);
 
-columnRoutes.get("/", getAll);
-columnRoutes.get("/:id", getOne);
-columnRoutes.post("/", authorize, create);
-columnRoutes.delete("/:id", authorize, remove);
-columnRoutes.put("/:id", authorize, update);
-
-export default columnRoutes;
+export const columnItemRoutes = Router();
+columnItemRoutes.get("/:id", getOne);
+columnItemRoutes.delete("/:id", authorize, remove);
+columnItemRoutes.put("/:id", authorize, update);

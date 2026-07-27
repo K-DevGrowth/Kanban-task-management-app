@@ -14,7 +14,7 @@ const Board = () => {
   return (
     <div className="w-full">
       <BoardHeader board={board.data} />
-      <ColumnContainer />
+      <ColumnContainer board={board.data} />
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import ColumnHeader from "./ColumnHeader";
 import TaskCard from "./TaskCard";
 
-const Column = () => {
+const Column = ({ column }) => {
   return (
-    <div>
-      <ColumnHeader />
-      <TaskCard />
+    <div className="py-2 px-4 *:my-1">
+      <ColumnHeader column={column} />
+      <TaskCard column={column} />
     </div>
   );
 };

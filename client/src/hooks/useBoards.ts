@@ -10,7 +10,7 @@ const useBoards = () => {
   });
 
   const createBoardMutation = useMutation({
-    mutationFn: ({ title, token }) => create({ title }, token),
+    mutationFn: create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
     },

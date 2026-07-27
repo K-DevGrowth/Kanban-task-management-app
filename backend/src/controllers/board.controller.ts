@@ -17,7 +17,7 @@ export const getOne = async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    board,
+    data: board,
   });
 };
 
