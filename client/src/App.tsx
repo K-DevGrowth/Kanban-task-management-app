@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Board from "./components/Board";
 import Sidebar from "./components/Sidebar";
 import { useLoggedUser } from "./hooks/useLoggedUser";
+import SignIn from "./components/SignIn";
 
 const App = () => {
   const { user, loading } = useLoggedUser();
@@ -21,10 +22,11 @@ const App = () => {
           path="/"
           element={
             <>
-              <Sidebar />
+              <SignIn />
             </>
           }
         />
+        <Route path="/me" element={<Sidebar />} />
         <Route
           path={`/boards/:boardId`}
           element={

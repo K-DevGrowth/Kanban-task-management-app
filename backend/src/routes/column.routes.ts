@@ -15,4 +15,4 @@ columnListRoutes.post("/", authorize, create);
 export const columnItemRoutes = Router();
 columnItemRoutes.get("/:id", getOne);
 columnItemRoutes.delete("/:id", authorize, remove);
-columnItemRoutes.put("/:id", authorize, update);
+columnItemRoutes.patch("/:id", authorize, update);

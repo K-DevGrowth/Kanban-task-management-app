@@ -14,6 +14,6 @@ boardRoutes.get("/", getAll);
 boardRoutes.get("/:id", getOne);
 boardRoutes.post("/", authorize, create);
 boardRoutes.delete("/:id", authorize, remove);
-boardRoutes.put("/:id", authorize, update);
+boardRoutes.patch("/:id", authorize, update);
 
 export default boardRoutes;

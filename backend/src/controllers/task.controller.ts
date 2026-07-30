@@ -1,7 +1,12 @@
 import { prisma } from "../lib/prisma.js";
 
 export const getAll = async (req, res, next) => {
-  const tasks = await prisma.task.findMany();
+  const { columnId } = req.query;
+
+  const tasks = await prisma.task.findMany({
+    where: { columnId },
+  });
+
   res.status(200).json({
     success: true,
     data: tasks,

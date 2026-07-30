@@ -11,9 +11,9 @@ import { authorize } from "../middleware/auth.middleware.js";
 const taskRoutes = Router();
 
 taskRoutes.get("/", getAll);
-taskRoutes.get("/:id", getOne);
 taskRoutes.post("/", authorize, create);
+taskRoutes.get("/:id", getOne);
 taskRoutes.delete("/:id", authorize, remove);
-taskRoutes.put("/:id", authorize, update);
+taskRoutes.patch("/:id", authorize, update);
 
 export default taskRoutes;

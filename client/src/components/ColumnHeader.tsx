@@ -1,5 +1,5 @@
-const ColumnHeader = ({ column }) => {
-  return <div>{column.title}</div>;
+const ColumnHeader = ({ columnTitle }) => {
+  return <div>{columnTitle}</div>;
 };
 
 export default ColumnHeader;

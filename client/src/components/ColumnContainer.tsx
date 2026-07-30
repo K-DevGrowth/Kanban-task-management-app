@@ -1,22 +1,14 @@
 import { useState } from "react";
-import useColumns from "../hooks/useColumns";
 import Column from "./Column";
 import ColumnForm from "./ColumnForm";
 
 const ColumnContainer = ({ board }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { columns, isError, isPending } = useColumns(board.id);
-
-  if (isPending) return "loading...";
-
-  if (isError) return "error...";
-
   return (
     <div className="flex">
-      {columns.data.map((column) => (
-        <Column key={column.id} column={column} />
-      ))}
+      <Column boardId={board.id} />
+
       <button
         onClick={() => setIsOpen(!isOpen)}
         type="button"
