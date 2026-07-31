@@ -1,20 +1,31 @@
-import useTasks from "../hooks/useTasks";
+import { useState } from "react";
+import { useSubtasks } from "../hooks/useSubtasks";
+import TaskCardDetails from "./TaskCardDetails";
 
-const TaskCard = ({ columnId }) => {
-  const { tasks, isError, isPending } = useTasks(columnId);
+const TaskCard = ({ task }) => {
+  const { subtasks, isPending, isError } = useSubtasks(task.id);
+  const [isOpen, setIsOpen] = useState(false);
 
   if (isError) return "error...";
 
   if (isPending) return "loading...";
 
+  const subtaskCount = subtasks?.data.filter(
+    (subtask) => subtask.isDone,
+  ).length;
+
   return (
-    <div className="rounded border-2 h-full min-h-120 p-4">
-      {tasks.data.map((task) => (
-        <div key={task.id}>
-          <p>{task.title}</p>
-          <span>0 of 3 subtasks</span>
-        </div>
-      ))}
+    <div className="rounded h-full min-h-120 min-w-40">
+      <button
+        className="border-2 cursor-pointer border-gray-300 w-full rounded p-4 text-left"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <p>{task.title}</p>
+        <span>
+          {subtaskCount} of {subtasks?.data.length} subtasks
+        </span>
+      </button>
+      {isOpen && <TaskCardDetails task={task} />}
     </div>
   );
 };
