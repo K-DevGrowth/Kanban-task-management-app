@@ -1,41 +1,29 @@
-import { getToken } from "./tokenStorage";
+import { apiFetch } from "./apiClient";
 
 const baseUrl = "/api/boards";
 
-export const getAll = async () => {
-  const res = await fetch(baseUrl);
-
-  if (!res.ok) {
-    throw new Error("Failed to get boards");
-  }
-  return res.json();
+export const getAllBoards = () => {
+  return apiFetch(baseUrl, {
+    method: "GET",
+  });
 };
 
-export const getOne = async (id: string) => {
-  const res = await fetch(`${baseUrl}/${id}`);
-
-  if (!res.ok) {
-    throw new Error("Failed to get board");
-  }
-
-  return res.json();
+export const getOneBoard = (id: string) => {
+  return apiFetch(`${baseUrl}/${id}`, {
+    method: "GET",
+  });
 };
 
-export const create = async (payload) => {
-  const token = getToken();
-
-  const res = await fetch(baseUrl, {
+export const createBoard = (payload: { title: string }) => {
+  return apiFetch(baseUrl, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
     body: JSON.stringify(payload),
   });
+};
 
-  if (!res.ok) {
-    throw new Error("Failed to create board");
-  }
-
-  return res.json();
+export const updateBoard = (id: string, payload: { title: string }) => {
+  return apiFetch(`${baseUrl}/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
 };

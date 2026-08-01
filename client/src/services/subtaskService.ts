@@ -1,27 +1,15 @@
-import { getToken } from "./tokenStorage";
+import { apiFetch } from "./apiClient";
 
-export const getAllSubtasks = async (taskId: string) => {
-  const res = await fetch(`/api/tasks/${taskId}/subtasks`);
-
-  const subtasks = await res.json();
-  return subtasks;
+export const getAllSubtasks = (taskId: string) => {
+  return apiFetch(`/api/tasks/${taskId}/subtasks`);
 };
 
-export const createSubtask = async (
+export const createSubtask = (
   taskId: string,
   payload: { title: string; isDone: boolean },
 ) => {
-  const token = getToken();
-
-  const res = await fetch(`/api/tasks/${taskId}/subtasks`, {
+  return apiFetch(`/api/tasks/${taskId}/subtasks`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
     body: JSON.stringify(payload),
   });
-
-  const newSubtask = await res.json();
-  return newSubtask;
 };
