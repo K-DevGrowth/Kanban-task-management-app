@@ -8,7 +8,7 @@ export const getAllBoards = async (req, res, next) => {
   });
 };
 
-export const getOneBoard = async (req, res, next) => {
+export const getBoardById = async (req, res, next) => {
   const board = await prisma.board.findUnique({ where: { id: req.params.id } });
 
   if (!board) {
@@ -40,7 +40,7 @@ export const createBoard = async (req, res, next) => {
   }
 };
 
-export const removeBoard = async (req, res, next) => {
+export const deleteBoardById = async (req, res, next) => {
   const board = await prisma.board.findUnique({ where: { id: req.params.id } });
 
   if (!board) {
@@ -55,7 +55,7 @@ export const removeBoard = async (req, res, next) => {
   });
 };
 
-export const updateBoard = async (req, res, next) => {
+export const updateBoardById = async (req, res, next) => {
   const board = await prisma.board.findUnique({ where: { id: req.params.id } });
 
   if (!board) {

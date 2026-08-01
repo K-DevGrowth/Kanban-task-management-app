@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 
-export const getAll = async (req, res, next) => {
+export const getAllColumns = async (req, res, next) => {
   const { boardId } = req.params;
 
   const columns = await prisma.column.findMany({
@@ -15,7 +15,7 @@ export const getAll = async (req, res, next) => {
   });
 };
 
-export const getOne = async (req, res, next) => {
+export const getColumnById = async (req, res, next) => {
   const column = await prisma.column.findUnique({
     where: { id: req.params.id },
   });
@@ -30,7 +30,7 @@ export const getOne = async (req, res, next) => {
   });
 };
 
-export const create = async (req, res, next) => {
+export const createColumn = async (req, res, next) => {
   try {
     const { boardId } = req.params;
     const { title } = req.body;
@@ -72,7 +72,7 @@ export const create = async (req, res, next) => {
   }
 };
 
-export const remove = async (req, res, next) => {
+export const deleteColumnById = async (req, res, next) => {
   const column = await prisma.column.findUnique({
     where: { id: req.params.id },
   });
@@ -89,7 +89,7 @@ export const remove = async (req, res, next) => {
   });
 };
 
-export const update = async (req, res, next) => {
+export const updateColumnById = async (req, res, next) => {
   const { boardId, title, order } = req.body;
 
   const column = await prisma.column.findUnique({

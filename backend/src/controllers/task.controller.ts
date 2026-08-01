@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 
-export const getAll = async (req, res, next) => {
+export const getAllTasks = async (req, res, next) => {
   const { columnId } = req.query;
 
   const tasks = await prisma.task.findMany({
@@ -13,7 +13,7 @@ export const getAll = async (req, res, next) => {
   });
 };
 
-export const getOne = async (req, res, next) => {
+export const getTaskById = async (req, res, next) => {
   const task = await prisma.task.findUnique({ where: { id: req.params.id } });
 
   if (!task) {
@@ -26,7 +26,7 @@ export const getOne = async (req, res, next) => {
   });
 };
 
-export const create = async (req, res, next) => {
+export const createTask = async (req, res, next) => {
   try {
     const { columnId, title, description } = req.body;
 
@@ -64,7 +64,7 @@ export const create = async (req, res, next) => {
   }
 };
 
-export const remove = async (req, res, next) => {
+export const deleteTaskById = async (req, res, next) => {
   const task = await prisma.task.findUnique({ where: { id: req.params.id } });
 
   if (!task) {
@@ -79,7 +79,7 @@ export const remove = async (req, res, next) => {
   });
 };
 
-export const update = async (req, res, next) => {
+export const updateTaskById = async (req, res, next) => {
   const { title, description, order, columnId } = req.body;
 
   const task = await prisma.task.findUnique({ where: { id: req.params.id } });
