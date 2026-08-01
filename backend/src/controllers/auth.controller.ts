@@ -38,6 +38,7 @@ export const signUp = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
+      message: "sign up successfully",
       data: {
         token,
         user: safeUser,
@@ -74,6 +75,7 @@ export const signIn = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+      message: "sign in successfully",
       data: {
         token,
         user: safeUser,
@@ -87,18 +89,3 @@ export const signIn = async (req, res, next) => {
 export const signOut = async (req, res, next) => {};
 
 export const forgotPassword = async (req, res, next) => {};
-
-export const getMe = async (req, res, next) => {
-  try {
-    const { password: _, ...safeUser } = req.user;
-
-    res.status(200).json({
-      success: true,
-      data: {
-        user: safeUser,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
