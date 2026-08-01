@@ -9,10 +9,12 @@ import {
 import { authorize } from "../middleware/auth.middleware";
 
 export const subtaskListRoutes = Router({ mergeParams: true });
+subtaskListRoutes.use(authorize);
 subtaskListRoutes.get("/", getAllSubtasks);
-subtaskListRoutes.post("/", authorize, createSubtask);
+subtaskListRoutes.post("/", createSubtask);
 
 export const subtaskItemRoutes = Router();
-subtaskItemRoutes.get("/:id", authorize, getSubtaskById);
-subtaskItemRoutes.delete("/:id", authorize, deleteSubtaskById);
-subtaskItemRoutes.patch("/:id", authorize, updateSubtaskById);
+subtaskItemRoutes.use(authorize);
+subtaskItemRoutes.get("/:id", getSubtaskById);
+subtaskItemRoutes.delete("/:id", deleteSubtaskById);
+subtaskItemRoutes.patch("/:id", updateSubtaskById);

@@ -9,10 +9,12 @@ import {
 import { authorize } from "../middleware/auth.middleware.js";
 
 export const columnListRoutes = Router({ mergeParams: true });
+columnListRoutes.use(authorize);
 columnListRoutes.get("/", getAll);
-columnListRoutes.post("/", authorize, create);
+columnListRoutes.post("/", create);
 
 export const columnItemRoutes = Router();
+columnItemRoutes.use(authorize);
 columnItemRoutes.get("/:id", getOne);
-columnItemRoutes.delete("/:id", authorize, remove);
-columnItemRoutes.patch("/:id", authorize, update);
+columnItemRoutes.delete("/:id", remove);
+columnItemRoutes.patch("/:id", update);
