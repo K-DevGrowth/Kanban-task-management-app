@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 
-export const getAll = async (req, res, next) => {
+export const getAllBoards = async (req, res, next) => {
   const boards = await prisma.board.findMany({ include: { columns: true } });
   res.status(200).json({
     success: true,
@@ -8,7 +8,7 @@ export const getAll = async (req, res, next) => {
   });
 };
 
-export const getOne = async (req, res, next) => {
+export const getOneBoard = async (req, res, next) => {
   const board = await prisma.board.findUnique({ where: { id: req.params.id } });
 
   if (!board) {
@@ -21,7 +21,7 @@ export const getOne = async (req, res, next) => {
   });
 };
 
-export const create = async (req, res, next) => {
+export const createBoard = async (req, res, next) => {
   try {
     const { title } = req.body;
 
@@ -40,7 +40,7 @@ export const create = async (req, res, next) => {
   }
 };
 
-export const remove = async (req, res, next) => {
+export const removeBoard = async (req, res, next) => {
   const board = await prisma.board.findUnique({ where: { id: req.params.id } });
 
   if (!board) {
@@ -55,7 +55,7 @@ export const remove = async (req, res, next) => {
   });
 };
 
-export const update = async (req, res, next) => {
+export const updateBoard = async (req, res, next) => {
   const board = await prisma.board.findUnique({ where: { id: req.params.id } });
 
   if (!board) {

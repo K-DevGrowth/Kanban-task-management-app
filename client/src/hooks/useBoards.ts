@@ -1,16 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { create, getAll } from "../services/boardService";
+import { createBoard, getAllBoards } from "../services/boardService";
 
 const useBoards = () => {
   const queryClient = useQueryClient();
 
   const result = useQuery({
     queryKey: ["boards"],
-    queryFn: getAll,
+    queryFn: getAllBoards,
   });
 
   const createBoardMutation = useMutation({
-    mutationFn: create,
+    mutationFn: createBoard,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
     },
@@ -20,7 +20,7 @@ const useBoards = () => {
     boards: result.data,
     isPending: result.isPending,
     isError: result.isError,
-    createBoard: (payload) => createBoardMutation.mutate(payload),
+    createBoard: createBoardMutation.mutate,
   };
 };
 
