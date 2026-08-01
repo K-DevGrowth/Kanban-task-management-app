@@ -1,16 +1,16 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Board from "./components/Board";
 import Sidebar from "./components/Sidebar";
-import { useLoggedUser } from "./hooks/useLoggedUser";
+import { useAuth } from "./context/AuthContext";
 import SignIn from "./components/SignIn";
 
 const App = () => {
-  const { user, loading } = useLoggedUser();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
       <div className="flex items-center justify-center w-full h-screen">
-        Đang tải...
+        loading...
       </div>
     );
   }
@@ -20,20 +20,23 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={
-            <>
-              <SignIn />
-            </>
-          }
+          element={user ? <Navigate to="/dashboard" replace /> : <SignIn />}
         />
-        <Route path="/me" element={<Sidebar />} />
         <Route
-          path={`/boards/:boardId`}
+          path="/dashboard"
+          element={user ? <Sidebar /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/boards/:boardId"
           element={
-            <>
-              <Sidebar />
-              <Board />
-            </>
+            user ? (
+              <>
+                <Sidebar />
+                <Board />
+              </>
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
       </Routes>

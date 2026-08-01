@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useLoggedUser } from "../hooks/useLoggedUser";
+import { useAuth } from "../context/AuthContext";
 import TaskForm from "./TaskForm";
 
 const BoardHeader = ({ board }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useLoggedUser();
+  const { user, logout } = useAuth();
 
   return (
     <header className="flex justify-between items-center border p-4">
@@ -15,7 +15,9 @@ const BoardHeader = ({ board }) => {
         </button>
         {isOpen && <TaskForm boardId={board.id} />}
         {user ? (
-          <button type="button">Log Out</button>
+          <button type="button" onClick={logout}>
+            Log Out
+          </button>
         ) : (
           <>
             <button type="button">Sign Up</button>

@@ -1,31 +1,34 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signIn, signUp } from "../services/authService";
-import { saveToken } from "../services/tokenStorage.ts";
+import { useAuth } from "../context/AuthContext.tsx";
 
-const useAuth = () => {
+const useAuthMutations = () => {
   const queryClient = useQueryClient();
+  const { login } = useAuth();
 
   const signInMutation = useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) =>
-      signIn({ email, password }),
-    onSuccess: (data, variables: { remember: boolean }) => {
-      queryClient.setQueryData(["me"], data);
-
-      saveToken(data.data.token, variables.remember);
+    mutationFn: (payload: { email: string; password: string }) =>
+      signIn(payload),
+    onSuccess: (response) => {
+      const { token, user } = response.data;
+      login(token, user, user);
+      queryClient.setQueryData(["me", user.id], user);
     },
   });
 
   const signUpMutation = useMutation({
     mutationFn: signUp,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+    onSuccess: (response) => {
+      const { token, user } = response.data;
+      login(token, user, user);
+      queryClient.setQueryData(["me", user.id], user);
     },
   });
 
   return {
-    signIn: (payload) => signInMutation.mutate(payload),
-    signUp: (userObject) => signUpMutation.mutate(userObject),
+    signIn: signInMutation.mutate,
+    signUp: signUpMutation.mutate,
   };
 };
 
-export default useAuth;
+export default useAuthMutations;

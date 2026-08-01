@@ -7,7 +7,7 @@ export const apiFetch = async (path: string, options: RequestInit = {}) => {
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
   });

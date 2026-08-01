@@ -1,14 +1,24 @@
-export const saveToken = (token: string, remember: boolean) => {
-  return remember
-    ? localStorage.setItem("token", token)
-    : sessionStorage.setItem("token", token);
+const TOKEN_KEY = "token";
+const USER_KEY = "user";
+
+export const getToken = () => localStorage.getItem(TOKEN_KEY);
+
+export const setToken = (token: string) =>
+  localStorage.setItem(TOKEN_KEY, token);
+
+export const clearToken = () => localStorage.removeItem(TOKEN_KEY);
+
+export const getStoredUser = () => {
+  const raw = localStorage.getItem(USER_KEY);
+  return raw ? JSON.parse(raw) : null;
 };
 
-export const getToken = (): string | null => {
-  return localStorage.getItem("token") || sessionStorage.getItem("token");
-};
+export const setStoredUser = (user: unknown) =>
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
 
-export const removeToken = () => {
-  localStorage.removeItem("token");
-  sessionStorage.removeItem("token");
+export const clearStoredUser = () => localStorage.removeItem(USER_KEY);
+
+export const clearAuth = () => {
+  clearToken();
+  clearStoredUser();
 };
