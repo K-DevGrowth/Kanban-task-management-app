@@ -1,7 +1,11 @@
 import { prisma } from "../lib/prisma.js";
 
 export const getAllBoards = async (req, res, next) => {
-  const boards = await prisma.board.findMany({ include: { columns: true } });
+  const boards = await prisma.board.findMany({
+    where: { userId: req.user.id },
+    include: { columns: true },
+  });
+
   res.status(200).json({
     success: true,
     data: boards,
@@ -9,11 +13,10 @@ export const getAllBoards = async (req, res, next) => {
 };
 
 export const getBoardById = async (req, res, next) => {
-  const board = await prisma.board.findUnique({ where: { id: req.params.id } });
-
-  if (!board) {
-    return res.status(404).json({ error: "Board not found" });
-  }
+  const board = await prisma.board.findUnique({
+    where: { id: req.resource.id },
+    include: { columns: true },
+  });
 
   res.status(200).json({
     success: true,
@@ -33,21 +36,13 @@ export const createBoard = async (req, res, next) => {
       success: true,
       data: board,
     });
-
-    next();
   } catch (error) {
-    res.status(500).json({ message: "Error server" });
+    next(error);
   }
 };
 
 export const deleteBoardById = async (req, res, next) => {
-  const board = await prisma.board.findUnique({ where: { id: req.params.id } });
-
-  if (!board) {
-    return res.status(404).json({ error: "Board not found" });
-  }
-
-  await prisma.board.delete({ where: { id: board.id } });
+  await prisma.board.delete({ where: { id: req.resource.id } });
 
   res.status(200).json({
     success: true,
@@ -56,14 +51,8 @@ export const deleteBoardById = async (req, res, next) => {
 };
 
 export const updateBoardById = async (req, res, next) => {
-  const board = await prisma.board.findUnique({ where: { id: req.params.id } });
-
-  if (!board) {
-    return res.status(404).json({ error: "Board not found" });
-  }
-
   const newBoard = await prisma.board.update({
-    where: { id: board.id },
+    where: { id: req.resource.id },
     data: { title: req.body.title },
   });
 

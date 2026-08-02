@@ -3,9 +3,10 @@ import { prisma } from "../lib/prisma";
 export const getAllSubtasks = async (req, res, next) => {
   try {
     const subtasks = await prisma.subtask.findMany({
-      where: { taskId: req.params.taskId },
+      where: { taskId: req.resource.id },
       orderBy: { order: "asc" },
     });
+
     res.json({
       success: true,
       message: "Subtasks retrieved successfully",
@@ -19,10 +20,9 @@ export const getAllSubtasks = async (req, res, next) => {
 export const createSubtask = async (req, res, next) => {
   try {
     const { title, isDone } = req.body;
-    const { taskId } = req.params;
 
     const lastSubtask = await prisma.subtask.findFirst({
-      where: { taskId },
+      where: { taskId: req.resource.id },
       orderBy: { order: "desc" },
     });
 
@@ -33,7 +33,7 @@ export const createSubtask = async (req, res, next) => {
         title,
         isDone,
         task: {
-          connect: { id: taskId },
+          connect: { id: req.resource.id },
         },
         order: newOrder,
       },
@@ -49,8 +49,37 @@ export const createSubtask = async (req, res, next) => {
   }
 };
 
-export const getSubtaskById = async (req, res, next) => {};
+export const getSubtaskById = async (req, res, next) => {
+  const subtask = await prisma.subtask.findUnique({
+    where: { id: req.resource.id },
+  });
 
-export const deleteSubtaskById = async (req, res, next) => {};
+  res.status(200).json({
+    success: true,
+    data: subtask,
+  });
+};
 
-export const updateSubtaskById = async (req, res, next) => {};
+export const deleteSubtaskById = async (req, res, next) => {
+  await prisma.subtask.delete({ where: { id: req.resource.id } });
+
+  res.status(200).json({
+    success: true,
+    message: "Subtask deleted successfully",
+  });
+};
+
+export const updateSubtaskById = async (req, res, next) => {
+  const { title, isDone } = req.body;
+
+  const updatedSubtask = await prisma.subtask.update({
+    where: { id: req.resource.id },
+    data: { title, isDone },
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Subtask updated successfully",
+    data: updatedSubtask,
+  });
+};
