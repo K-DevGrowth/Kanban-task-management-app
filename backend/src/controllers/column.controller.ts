@@ -1,27 +1,31 @@
 import { prisma } from "../lib/prisma.js";
 
 export const getAllColumns = async (req, res, next) => {
-  const columns = await prisma.column.findMany({
-    where: { boardId: req.resource.id },
-    include: { tasks: true },
-    orderBy: { order: "asc" },
-  });
+  try {
+    const columns = await prisma.column.findMany({
+      where: { boardId: req.resource.id },
+      include: { tasks: true },
+      orderBy: { order: "asc" },
+    });
 
-  res.status(200).json({
-    success: true,
-    data: columns,
-  });
+    res.status(200).json({
+      success: true,
+      data: columns,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const getColumnById = async (req, res, next) => {
-  const column = await prisma.column.findUnique({
-    where: { id: req.resource.id },
-  });
-
-  res.status(200).json({
-    success: true,
-    column,
-  });
+  try {
+    res.status(200).json({
+      success: true,
+      column: req.resource,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const createColumn = async (req, res, next) => {
@@ -56,25 +60,35 @@ export const createColumn = async (req, res, next) => {
 };
 
 export const deleteColumnById = async (req, res, next) => {
-  await prisma.column.delete({ where: { id: req.resource.id } });
-
-  res.status(200).json({
-    success: true,
-    message: "Delete column successfully",
-  });
+  try {
+    await prisma.column.delete({ where: { id: req.resource.id } });
+    res
+      .status(200)
+      .json({ success: true, message: "Delete column successfully" });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const updateColumnById = async (req, res, next) => {
-  const { title, order } = req.body;
+  try {
+    const { title, order } = req.body;
 
-  const newcolumn = await prisma.column.update({
-    where: { id: req.resource.id },
-    data: { title, order },
-  });
+    if (!title || typeof title !== "string" || !title.trim()) {
+      return res.status(400).json({ error: "Title is missing" });
+    }
 
-  res.status(200).json({
-    success: true,
-    message: "Update column successfully",
-    data: newcolumn,
-  });
+    const newcolumn = await prisma.column.update({
+      where: { id: req.resource.id },
+      data: { title, order },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Update column successfully",
+      data: newcolumn,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

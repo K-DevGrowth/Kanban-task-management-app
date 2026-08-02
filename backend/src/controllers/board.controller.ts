@@ -13,15 +13,14 @@ export const getAllBoards = async (req, res, next) => {
 };
 
 export const getBoardById = async (req, res, next) => {
-  const board = await prisma.board.findUnique({
-    where: { id: req.resource.id },
-    include: { columns: true },
-  });
-
-  res.status(200).json({
-    success: true,
-    data: board,
-  });
+  try {
+    res.status(200).json({
+      success: true,
+      board: req.resource,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const createBoard = async (req, res, next) => {
@@ -42,23 +41,31 @@ export const createBoard = async (req, res, next) => {
 };
 
 export const deleteBoardById = async (req, res, next) => {
-  await prisma.board.delete({ where: { id: req.resource.id } });
+  try {
+    await prisma.board.delete({ where: { id: req.resource.id } });
 
-  res.status(200).json({
-    success: true,
-    message: "Delete board successfully",
-  });
+    res.status(200).json({
+      success: true,
+      message: "Delete board successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const updateBoardById = async (req, res, next) => {
-  const newBoard = await prisma.board.update({
-    where: { id: req.resource.id },
-    data: { title: req.body.title },
-  });
+  try {
+    const newBoard = await prisma.board.update({
+      where: { id: req.resource.id },
+      data: { title: req.body.title },
+    });
 
-  res.status(200).json({
-    success: true,
-    message: "Update board successfully",
-    data: newBoard,
-  });
+    res.status(200).json({
+      success: true,
+      message: "Update board successfully",
+      data: newBoard,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

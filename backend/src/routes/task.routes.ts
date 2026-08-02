@@ -15,6 +15,9 @@ const taskRoutes = Router();
 const findColumnById = (req) => {
   const columnId =
     req.method === "GET" ? req.query.columnId : req.body.columnId;
+  if (!columnId) {
+    return null;
+  }
   return prisma.column.findUnique({
     where: { id: columnId },
     include: { board: true },

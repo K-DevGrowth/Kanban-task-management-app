@@ -1,32 +1,39 @@
 import { prisma } from "../lib/prisma.js";
 
 export const getAllTasks = async (req, res, next) => {
-  const tasks = await prisma.task.findMany({
-    where: { columnId: req.resource.id },
-    include: { subtasks: true },
-  });
+  try {
+    const tasks = await prisma.task.findMany({
+      where: { columnId: req.resource.id },
+      include: { subtasks: true },
+    });
 
-  res.status(200).json({
-    success: true,
-    data: tasks,
-  });
+    res.status(200).json({
+      success: true,
+      data: tasks,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const getTaskById = async (req, res, next) => {
-  const task = await prisma.task.findUnique({
-    where: { id: req.resource.id },
-    include: { subtasks: true },
-  });
-
-  res.status(200).json({
-    success: true,
-    task,
-  });
+  try {
+    res.status(200).json({
+      success: true,
+      task: req.resource ,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const createTask = async (req, res, next) => {
   try {
     const { title, description } = req.body;
+
+    if (!title || typeof title !== "string" || !title.trim()) {
+      return res.status(400).json({ error: "Title is missing" });
+    }
 
     const lastTask = await prisma.task.findFirst({
       where: { columnId: req.resource.id },
@@ -49,25 +56,33 @@ export const createTask = async (req, res, next) => {
 };
 
 export const deleteTaskById = async (req, res, next) => {
-  await prisma.task.delete({ where: { id: req.resource.id } });
+  try {
+    await prisma.task.delete({ where: { id: req.resource.id } });
 
-  res.status(200).json({
-    success: true,
-    message: "Delete task successfully",
-  });
+    res.status(200).json({
+      success: true,
+      message: "Delete task successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const updateTaskById = async (req, res, next) => {
-  const { title, description, order } = req.body;
+  try {
+    const { title, description, order } = req.body;
 
-  const newtask = await prisma.task.update({
-    where: { id: req.resource.id },
-    data: { title, description, order },
-  });
+    const newtask = await prisma.task.update({
+      where: { id: req.resource.id },
+      data: { title, description, order },
+    });
 
-  res.status(200).json({
-    success: true,
-    message: "Update task successfully",
-    data: newtask,
-  });
+    res.status(200).json({
+      success: true,
+      message: "Update task successfully",
+      data: newtask,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

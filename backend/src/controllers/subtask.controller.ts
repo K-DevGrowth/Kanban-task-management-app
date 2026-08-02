@@ -50,36 +50,48 @@ export const createSubtask = async (req, res, next) => {
 };
 
 export const getSubtaskById = async (req, res, next) => {
-  const subtask = await prisma.subtask.findUnique({
-    where: { id: req.resource.id },
-  });
-
-  res.status(200).json({
-    success: true,
-    data: subtask,
-  });
+  try {
+    res.status(200).json({
+      success: true,
+      subtask: req.resource,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const deleteSubtaskById = async (req, res, next) => {
-  await prisma.subtask.delete({ where: { id: req.resource.id } });
+  try {
+    await prisma.subtask.delete({ where: { id: req.resource.id } });
 
-  res.status(200).json({
-    success: true,
-    message: "Subtask deleted successfully",
-  });
+    res.status(200).json({
+      success: true,
+      message: "Subtask deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const updateSubtaskById = async (req, res, next) => {
-  const { title, isDone } = req.body;
+  try {
+    const { title, isDone } = req.body;
 
-  const updatedSubtask = await prisma.subtask.update({
-    where: { id: req.resource.id },
-    data: { title, isDone },
-  });
+    if (!title || typeof title !== "string" || !title.trim()) {
+      return res.status(400).json({ error: "Title is missing" });
+    }
 
-  res.status(200).json({
-    success: true,
-    message: "Subtask updated successfully",
-    data: updatedSubtask,
-  });
+    const updatedSubtask = await prisma.subtask.update({
+      where: { id: req.resource.id },
+      data: { title, isDone },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Subtask updated successfully",
+      data: updatedSubtask,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

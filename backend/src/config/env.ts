@@ -2,4 +2,9 @@ import { config } from "dotenv";
 
 config({ path: `.env.${process.env.NODE_ENV || "development"}.local` });
 
-export const { DATABASE_URL, PORT, JWT_SECRET, JWT_EXPERIES } = process.env;
+export const {
+  DATABASE_URL,
+  PORT,
+  JWT_SECRET,
+  JWT_EXPERIES,
+} = process.env;
