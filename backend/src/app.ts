@@ -9,6 +9,7 @@ import {
   subtaskItemRoutes,
   subtaskListRoutes,
 } from "./routes/subtask.routes.js";
+import { errorMiddleware } from "./middleware/error.middleware.js";
 
 const app = express();
 
@@ -25,6 +26,8 @@ app.use("/api/tasks", taskRoutes);
 
 app.use("/api/tasks/:taskId/subtasks", subtaskListRoutes);
 app.use("/api/subtasks", subtaskItemRoutes);
+
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server is running on the port http://localhost:${PORT}`);
