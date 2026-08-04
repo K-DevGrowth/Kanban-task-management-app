@@ -38,7 +38,6 @@ export const signUp = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: "sign up successfully",
       data: {
         token,
         user: safeUser,
@@ -75,7 +74,6 @@ export const signIn = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "sign in successfully",
       data: {
         token,
         user: safeUser,

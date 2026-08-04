@@ -9,7 +9,6 @@ export const getAllSubtasks = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: "Subtasks retrieved successfully",
       data: subtasks,
     });
   } catch (error) {
@@ -20,6 +19,13 @@ export const getAllSubtasks = async (req, res, next) => {
 export const createSubtask = async (req, res, next) => {
   try {
     const { title, isDone } = req.body;
+
+    if (!title || typeof title !== "string" || !title.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Title is required and must be a non-empty string",
+      });
+    }
 
     const lastSubtask = await prisma.subtask.findFirst({
       where: { taskId: req.resource.id },
@@ -41,7 +47,6 @@ export const createSubtask = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: "Subtask created successfully",
       data: newSubtask,
     });
   } catch (error) {
@@ -53,7 +58,7 @@ export const getSubtaskById = async (req, res, next) => {
   try {
     res.status(200).json({
       success: true,
-      subtask: req.resource,
+      data: req.resource,
     });
   } catch (error) {
     next(error);
@@ -66,7 +71,7 @@ export const deleteSubtaskById = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Subtask deleted successfully",
+      data: null,
     });
   } catch (error) {
     next(error);
@@ -78,7 +83,10 @@ export const updateSubtaskById = async (req, res, next) => {
     const { title, isDone } = req.body;
 
     if (!title || typeof title !== "string" || !title.trim()) {
-      return res.status(400).json({ error: "Title is missing" });
+      return res.status(400).json({
+        success: false,
+        message: "Title is required and must be a non-empty string",
+      });
     }
 
     const updatedSubtask = await prisma.subtask.update({
@@ -88,7 +96,6 @@ export const updateSubtaskById = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Subtask updated successfully",
       data: updatedSubtask,
     });
   } catch (error) {

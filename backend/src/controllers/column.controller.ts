@@ -21,7 +21,7 @@ export const getColumnById = async (req, res, next) => {
   try {
     res.status(200).json({
       success: true,
-      column: req.resource,
+      data: req.resource,
     });
   } catch (error) {
     next(error);
@@ -33,7 +33,10 @@ export const createColumn = async (req, res, next) => {
     const { title } = req.body;
 
     if (!title || typeof title !== "string" || !title.trim()) {
-      return res.status(400).json({ error: "Title is missing" });
+      return res.status(400).json({
+        success: false,
+        message: "Title is required and must be a non-empty string",
+      });
     }
 
     const lastColumn = await prisma.column.findFirst({
@@ -51,7 +54,6 @@ export const createColumn = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: "Create column successfully",
       data: column,
     });
   } catch (error) {
@@ -62,9 +64,7 @@ export const createColumn = async (req, res, next) => {
 export const deleteColumnById = async (req, res, next) => {
   try {
     await prisma.column.delete({ where: { id: req.resource.id } });
-    res
-      .status(200)
-      .json({ success: true, message: "Delete column successfully" });
+    res.status(200).json({ success: true, data: null });
   } catch (error) {
     next(error);
   }
@@ -75,7 +75,10 @@ export const updateColumnById = async (req, res, next) => {
     const { title, order } = req.body;
 
     if (!title || typeof title !== "string" || !title.trim()) {
-      return res.status(400).json({ error: "Title is missing" });
+      return res.status(400).json({
+        success: false,
+        message: "Title is required and must be a non-empty string",
+      });
     }
 
     const newcolumn = await prisma.column.update({
@@ -85,7 +88,6 @@ export const updateColumnById = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Update column successfully",
       data: newcolumn,
     });
   } catch (error) {

@@ -20,7 +20,7 @@ export const getTaskById = async (req, res, next) => {
   try {
     res.status(200).json({
       success: true,
-      task: req.resource ,
+      data: req.resource,
     });
   } catch (error) {
     next(error);
@@ -32,7 +32,10 @@ export const createTask = async (req, res, next) => {
     const { title, description } = req.body;
 
     if (!title || typeof title !== "string" || !title.trim()) {
-      return res.status(400).json({ error: "Title is missing" });
+      return res.status(400).json({
+        success: false,
+        message: "Title is required and must be a non-empty string",
+      });
     }
 
     const lastTask = await prisma.task.findFirst({
@@ -61,7 +64,7 @@ export const deleteTaskById = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Delete task successfully",
+      data: null,
     });
   } catch (error) {
     next(error);
@@ -72,6 +75,13 @@ export const updateTaskById = async (req, res, next) => {
   try {
     const { title, description, order } = req.body;
 
+    if (!title || typeof title !== "string" || !title.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Title is required and must be a non-empty string",
+      });
+    }
+
     const newtask = await prisma.task.update({
       where: { id: req.resource.id },
       data: { title, description, order },
@@ -79,7 +89,6 @@ export const updateTaskById = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Update task successfully",
       data: newtask,
     });
   } catch (error) {
