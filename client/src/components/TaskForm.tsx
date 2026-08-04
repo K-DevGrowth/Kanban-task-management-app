@@ -2,14 +2,16 @@ import { useState } from "react";
 import useColumns from "../hooks/useColumns";
 import useField from "../hooks/useField";
 import useTasks from "../hooks/useTasks";
+import { useParams } from "react-router-dom";
 
-const TaskForm = ({ boardId }) => {
+const TaskForm = () => {
   const [field, setField] = useState([""]);
+  const { boardId } = useParams();
 
   const title = useField();
   const description = useField();
   const status = useField();
-  const { columns, isError, isPending } = useColumns(boardId);
+  const { columns, isError, isPending } = useColumns({ boardId });
   const { createTask } = useTasks(status.value);
 
   const handleSubmit = (e) => {
@@ -49,7 +51,7 @@ const TaskForm = ({ boardId }) => {
           <option value="" disabled>
             -- Choose column --
           </option>
-          {columns.data.map((column) => (
+          {columns.map((column) => (
             <option key={column.id} value={column.id}>
               {column.title}
             </option>

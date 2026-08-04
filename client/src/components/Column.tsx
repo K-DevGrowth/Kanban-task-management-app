@@ -13,7 +13,7 @@ const Column = ({ column }) => {
     <div className="flex">
       <div className="py-2 px-4 *:my-1">
         <ColumnHeader columnTitle={column.title} />
-        {tasks.data.map((task) => (
+        {tasks.map((task) => (
           <TaskCard key={task.id} task={task} />
         ))}
       </div>

@@ -14,7 +14,7 @@ const BoardList = () => {
   return (
     <div>
       <ul>
-        {boards.data.map((board) => (
+        {boards.map((board) => (
           <BoardListItem key={board.id} board={board} />
         ))}
       </ul>

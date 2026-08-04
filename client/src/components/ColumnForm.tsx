@@ -1,8 +1,10 @@
+import { useParams } from "react-router-dom";
 import useColumns from "../hooks/useColumns";
 import useField from "../hooks/useField";
 
-const ColumnForm = ({ boardId }: { boardId: string }) => {
-  const { createColumn } = useColumns(boardId);
+const ColumnForm = () => {
+  const { boardId } = useParams();
+  const { createColumn } = useColumns({ boardId });
   const column = useField();
 
   const handleSubmit = (e: React.SyntheticEvent) => {

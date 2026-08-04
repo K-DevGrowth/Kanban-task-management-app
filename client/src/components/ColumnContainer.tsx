@@ -2,11 +2,13 @@ import { useState } from "react";
 import Column from "./Column";
 import ColumnForm from "./ColumnForm";
 import useColumns from "../hooks/useColumns";
+import { useParams } from "react-router-dom";
 
-const ColumnContainer = ({ board }) => {
+const ColumnContainer = () => {
+  const { boardId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { columns, isError, isPending } = useColumns(board.id);
+  const { columns, isError, isPending } = useColumns({ boardId });
 
   if (isPending) return "loading...";
 
@@ -14,7 +16,7 @@ const ColumnContainer = ({ board }) => {
 
   return (
     <div className="flex">
-      {columns.data.map((column) => (
+      {columns.map((column) => (
         <Column key={column.id} column={column} />
       ))}
 
@@ -25,7 +27,7 @@ const ColumnContainer = ({ board }) => {
       >
         +Add New Column
       </button>
-      {isOpen && <ColumnForm boardId={board.id} />}
+      {isOpen && <ColumnForm />}
     </div>
   );
 };

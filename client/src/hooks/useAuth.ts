@@ -10,7 +10,7 @@ const useAuthMutations = () => {
     mutationFn: (payload: { email: string; password: string }) =>
       signIn(payload),
     onSuccess: (response) => {
-      const { token, user } = response.data;
+      const { token, user } = response;
       login(token, user, user);
       queryClient.setQueryData(["me", user.id], user);
     },
@@ -19,7 +19,7 @@ const useAuthMutations = () => {
   const signUpMutation = useMutation({
     mutationFn: signUp,
     onSuccess: (response) => {
-      const { token, user } = response.data;
+      const { token, user } = response;
       login(token, user, user);
       queryClient.setQueryData(["me", user.id], user);
     },

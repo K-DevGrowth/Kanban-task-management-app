@@ -10,19 +10,17 @@ const TaskCard = ({ task }) => {
 
   if (isPending) return "loading...";
 
-  const subtaskCount = subtasks?.data.filter(
-    (subtask) => subtask.isDone,
-  ).length;
+  const subtaskCount = subtasks.filter((subtask) => subtask.isDone).length;
 
   return (
-    <div className="rounded h-full min-h-120 min-w-40">
+    <div className="rounded min-w-40">
       <button
         className="border-2 cursor-pointer border-gray-300 w-full rounded p-4 text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
         <p>{task.title}</p>
         <span>
-          {subtaskCount} of {subtasks?.data.length} subtasks
+          {subtaskCount} of {subtasks.length} subtasks
         </span>
       </button>
       {isOpen && <TaskCardDetails task={task} />}

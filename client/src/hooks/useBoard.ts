@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getOneBoard } from "../services/boardService";
 
-const useBoard = ({ boardId }) => {
+const useBoard = ({ boardId }: { boardId: string }) => {
   const result = useQuery({
     queryKey: ["board", boardId],
     queryFn: () => getOneBoard(boardId),

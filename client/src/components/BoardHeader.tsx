@@ -1,10 +1,18 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import TaskForm from "./TaskForm";
+import useBoard from "../hooks/useBoard";
+import { useParams } from "react-router-dom";
 
-const BoardHeader = ({ board }) => {
+const BoardHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { boardId } = useParams();
+  const { board, isError, isPending } = useBoard({ boardId });
+
+  if (isError) return "error...";
+
+  if (isPending) return "loading...";
 
   return (
     <header className="flex justify-between items-center border p-4">
@@ -13,7 +21,7 @@ const BoardHeader = ({ board }) => {
         <button type="button" onClick={() => setIsOpen(!isOpen)}>
           +Add New Task
         </button>
-        {isOpen && <TaskForm boardId={board.id} />}
+        {isOpen && <TaskForm />}
         {user ? (
           <button type="button" onClick={logout}>
             Log Out

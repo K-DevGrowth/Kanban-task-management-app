@@ -12,10 +12,11 @@ export const apiFetch = async (path: string, options: RequestInit = {}) => {
     },
   });
 
+  const body = await res.json().catch(() => ({}));
+
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
     throw new Error(body.message || `Request failed with status ${res.status}`);
   }
 
-  return res.json();
+  return body.data;
 };
