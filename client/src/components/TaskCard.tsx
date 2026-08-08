@@ -3,7 +3,7 @@ import { useSubtasks } from "../hooks/useSubtasks";
 import TaskCardDetails from "./TaskCardDetails";
 
 const TaskCard = ({ task }) => {
-  const { subtasks, isPending, isError } = useSubtasks(task.id);
+  const { subtasks, isPending, isError } = useSubtasks({ taskId: task.id });
   const [isOpen, setIsOpen] = useState(false);
 
   if (isError) return "error...";

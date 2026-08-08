@@ -10,7 +10,7 @@ const TaskCardDetails = ({ task }) => {
     isPending: isColumnsPending,
     isError: isColumnsError,
   } = useColumns({ boardId });
-  const { subtasks, isPending, isError } = useSubtasks(task.id);
+  const { subtasks, isPending, isError } = useSubtasks({ taskId: task.id });
   const status = useField(task.columnId);
 
   if (isError) return "error...";

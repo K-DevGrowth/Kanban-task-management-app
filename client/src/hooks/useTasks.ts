@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllTasks, createTask } from "../services/taskService";
 
-const useTasks = (columnId: string) => {
+const useTasks = ({ columnId }: { columnId: string }) => {
   const queryClient = useQueryClient();
 
   const result = useQuery({
@@ -11,7 +11,8 @@ const useTasks = (columnId: string) => {
   });
 
   const createTaskMutation = useMutation({
-    mutationFn: createTask,
+    mutationFn: (payload: { title: string; description: string }) =>
+      createTask(columnId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks", columnId] });
     },
@@ -22,6 +23,7 @@ const useTasks = (columnId: string) => {
     isError: result.isError,
     isPending: result.isPending,
     createTask: createTaskMutation.mutate,
+    createTaskAsync: createTaskMutation.mutateAsync,
   };
 };
 

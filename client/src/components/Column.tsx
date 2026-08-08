@@ -3,7 +3,7 @@ import ColumnHeader from "./ColumnHeader";
 import TaskCard from "./TaskCard";
 
 const Column = ({ column }) => {
-  const { tasks, isError, isPending } = useTasks(column.id);
+  const { tasks, isError, isPending } = useTasks({ columnId: column.id });
 
   if (isError) return "error...";
 
