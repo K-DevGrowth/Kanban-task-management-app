@@ -3,6 +3,7 @@ import useColumns from "../hooks/useColumns";
 import useField from "../hooks/useField";
 import useTasks from "../hooks/useTasks";
 import { useParams } from "react-router-dom";
+import { useSubtasks } from "../hooks/useSubtasks";
 
 const TaskForm = () => {
   const [field, setField] = useState([""]);
@@ -11,20 +12,25 @@ const TaskForm = () => {
   const title = useField();
   const description = useField();
   const status = useField();
-  const { columns, isError, isPending } = useColumns({ boardId });
-  const { createTask } = useTasks(status.value);
 
-  const handleSubmit = (e) => {
+  const { columns, isError, isPending } = useColumns({ boardId });
+  const { createTaskAsync } = useTasks({ columnId: status.value });
+  const { createSubtask } = useSubtasks();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    createTask({
-      columnId: status.value,
+
+    const newTask = await createTaskAsync({
       title: title.value,
       description: description.value,
+    });
+
+    field.forEach((item) => {
+      createSubtask({ taskId: newTask.id, title: item, isDone: false });
     });
   };
 
   if (isError) return "error...";
-
   if (isPending) return "loading...";
 
   return (
@@ -38,8 +44,17 @@ const TaskForm = () => {
         <input type="text" id="description-title" {...description} />
 
         <label htmlFor="subtasks">Subtasks</label>
-        {field.map((f) => (
-          <input key={f} />
+        {field.map((f, index) => (
+          <input
+            key={index}
+            value={f}
+            onChange={(e) => {
+              const updated = field.map((item, i) =>
+                i === index ? e.target.value : item,
+              );
+              setField(updated);
+            }}
+          />
         ))}
 
         <button type="button" onClick={() => setField([...field, ""])}>
