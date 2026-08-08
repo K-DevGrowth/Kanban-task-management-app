@@ -4,7 +4,7 @@ import authRoutes from "./routes/auth.routes.js";
 import boardRoutes from "./routes/board.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import { columnItemRoutes, columnListRoutes } from "./routes/column.routes.js";
-import taskRoutes from "./routes/task.routes.js";
+import { taskItemRoutes, taskListRoutes } from "./routes/task.routes.js";
 import {
   subtaskItemRoutes,
   subtaskListRoutes,
@@ -22,7 +22,8 @@ app.use("/api/boards", boardRoutes);
 app.use("/api/boards/:boardId/columns", columnListRoutes);
 app.use("/api/columns", columnItemRoutes);
 
-app.use("/api/tasks", taskRoutes);
+app.use("/api/columns/:columnId/tasks", taskListRoutes);
+app.use("/api/tasks", taskItemRoutes);
 
 app.use("/api/tasks/:taskId/subtasks", subtaskListRoutes);
 app.use("/api/subtasks", subtaskItemRoutes);

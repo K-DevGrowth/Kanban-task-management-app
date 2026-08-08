@@ -25,15 +25,20 @@ const findColumnById = (req) => {
 
 export const columnListRoutes = Router({ mergeParams: true });
 columnListRoutes.use(authorize);
-columnListRoutes.use(requireOwner(findBoardById, (board) => board.userId));
-columnListRoutes.get("/", getAllColumns);
-columnListRoutes.post("/", createColumn);
+
+const requireBoardOwner = requireOwner(findBoardById, (board) => board.userId);
+
+columnListRoutes.get("/", requireBoardOwner, getAllColumns);
+columnListRoutes.post("/", requireBoardOwner, createColumn);
 
 export const columnItemRoutes = Router();
 columnItemRoutes.use(authorize);
-columnItemRoutes.use(
-  requireOwner(findColumnById, (column) => column.board.userId),
+
+const requireColumnOwner = requireOwner(
+  findColumnById,
+  (column) => column.board.userId,
 );
-columnItemRoutes.get("/:id", getColumnById);
-columnItemRoutes.delete("/:id", deleteColumnById);
-columnItemRoutes.patch("/:id", updateColumnById);
+
+columnItemRoutes.get("/:id", requireColumnOwner, getColumnById);
+columnItemRoutes.delete("/:id", requireColumnOwner, deleteColumnById);
+columnItemRoutes.patch("/:id", requireColumnOwner, updateColumnById);

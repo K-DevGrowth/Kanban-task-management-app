@@ -26,17 +26,23 @@ const findSubtaskById = (req) => {
 
 export const subtaskListRoutes = Router({ mergeParams: true });
 subtaskListRoutes.use(authorize);
-subtaskListRoutes.use(
-  requireOwner(findTaskById, (task) => task.column.board.userId),
+
+const requireTaskOwner = requireOwner(
+  findTaskById,
+  (task) => task.column.board.userId,
 );
-subtaskListRoutes.get("/", getAllSubtasks);
-subtaskListRoutes.post("/", createSubtask);
+
+subtaskListRoutes.get("/", requireTaskOwner, getAllSubtasks);
+subtaskListRoutes.post("/", requireTaskOwner, createSubtask);
 
 export const subtaskItemRoutes = Router();
 subtaskItemRoutes.use(authorize);
-subtaskItemRoutes.use(
-  requireOwner(findSubtaskById, (subtask) => subtask.task.column.board.userId),
+
+const requireSubtaskOwner = requireOwner(
+  findSubtaskById,
+  (subtask) => subtask.task.column.board.userId,
 );
-subtaskItemRoutes.get("/:id", getSubtaskById);
-subtaskItemRoutes.delete("/:id", deleteSubtaskById);
-subtaskItemRoutes.patch("/:id", updateSubtaskById);
+
+subtaskItemRoutes.get("/:id", requireSubtaskOwner, getSubtaskById);
+subtaskItemRoutes.delete("/:id", requireSubtaskOwner, deleteSubtaskById);
+subtaskItemRoutes.patch("/:id", requireSubtaskOwner, updateSubtaskById);
