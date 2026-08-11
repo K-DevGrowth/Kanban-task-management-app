@@ -10,7 +10,9 @@ const TaskCardDetails = ({ task }) => {
     isPending: isColumnsPending,
     isError: isColumnsError,
   } = useColumns({ boardId });
-  const { subtasks, isPending, isError } = useSubtasks({ taskId: task.id });
+  const { subtasks, isPending, isError, updateSubtask } = useSubtasks({
+    taskId: task.id,
+  });
   const status = useField(task.columnId);
 
   if (isError) return "error...";
@@ -30,9 +32,19 @@ const TaskCardDetails = ({ task }) => {
         {subtasks.length} )
       </p>
 
-      {subtasks.map((subtask) => (
+      {subtasks.map((subtask, index) => (
         <div key={subtask.id}>
-          <input type="checkbox" checked={subtask.isDone} readOnly />
+          <input
+            type="checkbox"
+            checked={subtask.isDone}
+            onChange={(e) => {
+              e.preventDefault();
+              updateSubtask({
+                subtaskId: subtask.id,
+                isDone: e.target.checked,
+              });
+            }}
+          />
           <span>{subtask.title}</span>
         </div>
       ))}

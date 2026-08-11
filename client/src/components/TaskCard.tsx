@@ -13,7 +13,7 @@ const TaskCard = ({ task }) => {
   const subtaskCount = subtasks.filter((subtask) => subtask.isDone).length;
 
   return (
-    <div className="rounded min-w-40">
+    <div className="rounded min-w-50">
       <button
         className="border-2 cursor-pointer border-gray-300 w-full rounded p-4 text-left"
         onClick={() => setIsOpen(!isOpen)}

@@ -16,7 +16,9 @@ const Column = ({ column }) => {
         {tasks.map((task) => (
           <TaskCard key={task.id} task={task} />
         ))}
+        
       </div>
+      
     </div>
   );
 };

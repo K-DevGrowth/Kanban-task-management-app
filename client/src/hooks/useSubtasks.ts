@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createSubtask, getAllSubtasks } from "../services/subtaskService";
+import {
+  createSubtask,
+  getAllSubtasks,
+  updateSubtask,
+} from "../services/subtaskService";
 
 export const useSubtasks = ({ taskId }: { taskId?: string } = {}) => {
   const queryClient = useQueryClient();
@@ -19,11 +23,22 @@ export const useSubtasks = ({ taskId }: { taskId?: string } = {}) => {
       const { taskId, ...rest } = payload;
       return createSubtask(taskId, rest);
     },
-    
+
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["subtasks", variables.taskId],
       });
+    },
+  });
+
+  const updateSubtaskMutation = useMutation({
+    mutationFn: (payload: { subtaskId: string; isDone: boolean }) => {
+      const { subtaskId, ...rest } = payload;
+      return updateSubtask(subtaskId, rest);
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["subtasks", taskId] });
     },
   });
 
@@ -32,5 +47,6 @@ export const useSubtasks = ({ taskId }: { taskId?: string } = {}) => {
     isError: result.isError,
     isPending: result.isPending,
     createSubtask: createSubtaskMutation.mutate,
+    updateSubtask: updateSubtaskMutation.mutate,
   };
 };

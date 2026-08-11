@@ -13,3 +13,10 @@ export const createSubtask = (
     body: JSON.stringify(payload),
   });
 };
+
+export const updateSubtask = (subtaskId: string, payload: { isDone: boolean }) => {
+  return apiFetch(`/api/subtasks/${subtaskId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+};

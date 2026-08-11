@@ -23,7 +23,7 @@ const ColumnContainer = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         type="button"
-        className="rounded border-2 h-full min-h-120 p-4"
+        className="rounded mt-10 ml-4 border-2 border-gray-500 h-full min-h-120 p-4"
       >
         +Add New Column
       </button>
