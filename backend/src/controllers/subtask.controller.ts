@@ -15,22 +15,20 @@ export const getAllSubtasks = async (req, res) => {
 export const createSubtask = async (req, res) => {
   const { title, isDone } = req.body;
 
-  const lastSubtask = await prisma.subtask.findFirst({
-    where: { taskId: req.resource.id },
-    orderBy: { order: "desc" },
-  });
+  const newSubtask = await prisma.$transaction(async (tx) => {
+    const lastSubtask = await tx.subtask.findFirst({
+      where: { taskId: req.resource.id },
+      orderBy: { order: "desc" },
+    });
 
-  const newOrder = lastSubtask ? lastSubtask.order + 1 : 0;
-
-  const newSubtask = await prisma.subtask.create({
-    data: {
-      title,
-      isDone,
-      task: {
-        connect: { id: req.resource.id },
+    return tx.subtask.create({
+      data: {
+        title,
+        isDone,
+        order: lastSubtask ? lastSubtask.order + 1 : 0,
+        task: { connect: { id: req.resource.id } },
       },
-      order: newOrder,
-    },
+    });
   });
 
   res.status(201).json({
