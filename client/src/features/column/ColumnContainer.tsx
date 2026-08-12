@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Column from "./Column";
 import ColumnForm from "./ColumnForm";
-import useColumns from "../hooks/useColumns";
+import useColumns from "../features/column/useColumns.ts";
 import { useParams } from "react-router-dom";
 
 const ColumnContainer = () => {

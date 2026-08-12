@@ -1,4 +1,4 @@
-import BoardList from "./BoardList";
+import BoardList from "../features/board/BoardList.tsx";
 
 const Sidebar = () => {
   return (

@@ -1,6 +1,6 @@
-import useTasks from "../hooks/useTasks";
+import useTasks from "../features/task/useTasks.ts";
 import ColumnHeader from "./ColumnHeader";
-import TaskCard from "./TaskCard";
+import TaskCard from "../features/task/TaskCard.tsx";
 
 const Column = ({ column }) => {
   const { tasks, isError, isPending } = useTasks({ columnId: column.id });
@@ -13,12 +13,10 @@ const Column = ({ column }) => {
     <div className="flex">
       <div className="py-2 px-4 *:my-1">
         <ColumnHeader columnTitle={column.title} />
-        {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+        {tasks.map((task, index) => (
+          <TaskCard key={task.id} task={task} index={index} column={column} />
         ))}
-        
       </div>
-      
     </div>
   );
 };

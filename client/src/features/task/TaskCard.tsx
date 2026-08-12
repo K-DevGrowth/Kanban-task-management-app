@@ -1,8 +1,16 @@
 import { useState } from "react";
-import { useSubtasks } from "../hooks/useSubtasks";
+import { useSubtasks } from "../features/subtask/useSubtasks.ts";
 import TaskCardDetails from "./TaskCardDetails";
+import { useSortable } from "@dnd-kit/react/sortable";
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, index, column }) => {
+  const { ref, isDragging } = useSortable({
+    id: task.id,
+    index,
+    type: "TaskCard",
+    accept: "TaskCard",
+    group: column,
+  });
   const { subtasks, isPending, isError } = useSubtasks({ taskId: task.id });
   const [isOpen, setIsOpen] = useState(false);
 
@@ -17,6 +25,8 @@ const TaskCard = ({ task }) => {
       <button
         className="border-2 cursor-pointer border-gray-300 w-full rounded p-4 text-left"
         onClick={() => setIsOpen(!isOpen)}
+        ref={ref}
+        data-dragging={isDragging}
       >
         <p>{task.title}</p>
         <span>

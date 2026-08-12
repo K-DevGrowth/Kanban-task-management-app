@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import TaskForm from "./TaskForm";
-import useBoard from "../hooks/useBoard";
+import { useAuth } from "../features/auth/AuthContext.tsx";
+import TaskForm from "../features/task/TaskForm.tsx";
+import useBoard from "../features/board/useBoard.ts";
 import { useParams } from "react-router-dom";
 
 const BoardHeader = () => {

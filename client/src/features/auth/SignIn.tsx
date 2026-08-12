@@ -1,6 +1,6 @@
-import useAuth from "../hooks/useAuth";
 import useField from "../hooks/useField";
 import useChecked from "../hooks/useChecked.ts";
+import { useAuth } from "../context/AuthContext.tsx";
 
 const SignIn = () => {
   const { signIn } = useAuth();
@@ -22,7 +22,11 @@ const SignIn = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          signIn({ email: email.value, password: password.value, remember: remember.checked });
+          signIn({
+            email: email.value,
+            password: password.value,
+            remember: remember.checked,
+          });
         }}
         className="flex flex-col w-110 border-gray-300 mt-4 border shadow rounded p-6 gap-2"
       >

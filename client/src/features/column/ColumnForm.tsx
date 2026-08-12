@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import useColumns from "../hooks/useColumns";
-import useField from "../hooks/useField";
+import useColumns from "../features/column/useColumns.ts";
+import useField from "../shared/hooks/useField.ts";
 
 const ColumnForm = () => {
   const { boardId } = useParams();

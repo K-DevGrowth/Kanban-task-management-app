@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import useColumns from "../hooks/useColumns";
-import useField from "../hooks/useField";
-import { useSubtasks } from "../hooks/useSubtasks";
+import useColumns from "../features/column/useColumns.ts";
+import useField from "../shared/hooks/useField.ts";
+import { useSubtasks } from "../features/subtask/useSubtasks.ts";
 
 const TaskCardDetails = ({ task }) => {
   const { boardId } = useParams();
