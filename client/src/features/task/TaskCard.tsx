@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { useSubtasks } from "../features/subtask/useSubtasks.ts";
-import TaskCardDetails from "./TaskCardDetails";
+import { useSubtasks } from "../subtask/useSubtasks.ts";
+import TaskCardDetails from "./TaskCardDetails.tsx";
 import { useSortable } from "@dnd-kit/react/sortable";
 
 const TaskCard = ({ task, index, column }) => {
   const { ref, isDragging } = useSortable({
     id: task.id,
     index,
-    type: "TaskCard",
-    accept: "TaskCard",
-    group: column,
+    type: "task",
+    accept: "task",
+    group: column.id,
   });
   const { subtasks, isPending, isError } = useSubtasks({ taskId: task.id });
   const [isOpen, setIsOpen] = useState(false);

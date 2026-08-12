@@ -49,7 +49,20 @@ export const deleteTaskById = async (req, res) => {
 };
 
 export const updateTaskById = async (req, res) => {
-  const { title, description, order } = req.body;
+  const { title, description, order, columnId } = req.body;
+
+  if (columnId && columnId !== req.resource.columnId) {
+    const targetColumn = await prisma.column.findUnique({
+      where: { id: columnId },
+    });
+
+    if (!targetColumn || targetColumn.boardId !== req.resource.column.boardId) {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid column",
+      });
+    }
+  }
 
   const newtask = await prisma.task.update({
     where: { id: req.resource.id },
