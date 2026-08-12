@@ -28,7 +28,7 @@ model Board {
 model Column {
   id       String @id @default(cuid())
   title    String        
-  order    Int           
+  order    Float           
   boardId  String
   board    Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
   tasks    Task[]
@@ -38,7 +38,7 @@ model Task {
   id          String    @id @default(cuid())
   title       String
   description String?
-  order       Int
+  order       Float
   columnId    String
   column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
   subtasks    Subtask[]
@@ -50,7 +50,7 @@ model Subtask {
   id        String   @id @default(cuid())
   title     String
   isDone    Boolean  @default(false)
-  order     Int
+  order     Float
   taskId    String
   task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
