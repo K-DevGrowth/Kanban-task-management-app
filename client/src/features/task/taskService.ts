@@ -13,3 +13,10 @@ export const createTask = (
     body: JSON.stringify(payload),
   });
 };
+
+export const updateTask = (taskId: string, payload: { columnId?: string, order?: number }) => {
+  return apiFetch(`/api/tasks/${taskId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  })
+}
