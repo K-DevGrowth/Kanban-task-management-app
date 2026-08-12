@@ -1,4 +1,4 @@
-import { apiFetch } from "./apiClient";
+import { apiFetch } from "../../shared/api/apiClient.ts";
 
 export const getAllColumns = (boardId: string) => {
   return apiFetch(`/api/boards/${boardId}/columns`, {

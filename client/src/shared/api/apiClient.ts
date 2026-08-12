@@ -1,4 +1,4 @@
-import { getToken } from "./tokenStorage";
+import { getToken } from "../../features/auth/tokenStorage.ts";
 
 export const apiFetch = async (path: string, options: RequestInit = {}) => {
   const token = getToken();

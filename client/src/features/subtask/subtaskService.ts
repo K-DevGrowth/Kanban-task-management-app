@@ -1,4 +1,4 @@
-import { apiFetch } from "./apiClient";
+import { apiFetch } from "../../shared/api/apiClient.ts";
 
 export const getAllSubtasks = (taskId: string) => {
   return apiFetch(`/api/tasks/${taskId}/subtasks`);

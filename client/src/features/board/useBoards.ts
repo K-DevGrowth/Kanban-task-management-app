@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createBoard, getAllBoards } from "../services/boardService";
+import { createBoard, getAllBoards } from "./boardService.ts";
 
 const useBoards = () => {
   const queryClient = useQueryClient();

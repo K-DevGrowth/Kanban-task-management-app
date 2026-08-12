@@ -1,6 +1,6 @@
-import useField from "../hooks/useField";
-import useChecked from "../hooks/useChecked.ts";
-import { useAuth } from "../context/AuthContext.tsx";
+import useField from "../../shared/hooks/useField.ts";
+import useChecked from "../../shared/hooks/useChecked.ts";
+import { useAuth } from "./AuthContext.tsx";
 
 const SignIn = () => {
   const { signIn } = useAuth();

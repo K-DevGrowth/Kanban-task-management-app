@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAllTasks, createTask } from "../services/taskService";
+import { getAllTasks, createTask } from "./taskService.ts";
 
 const useTasks = ({ columnId }: { columnId: string }) => {
   const queryClient = useQueryClient();

@@ -5,7 +5,7 @@ import {
   getToken,
   setStoredUser,
   setToken,
-} from "../features/auth/tokenStorage.ts";
+} from "./tokenStorage.ts";
 
 const AuthContext = createContext(null);
 

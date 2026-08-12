@@ -1,7 +1,7 @@
 import { useState } from "react";
-import BoardListItem from "./BoardListItem";
-import BoardForm from "./BoardForm";
-import useBoards from "../features/board/useBoards.ts";
+import BoardListItem from "./BoardListItem.tsx";
+import BoardForm from "./BoardForm.tsx";
+import useBoards from "./useBoards.ts";
 
 const BoardList = () => {
   const [isOpen, setIsOpen] = useState(false);

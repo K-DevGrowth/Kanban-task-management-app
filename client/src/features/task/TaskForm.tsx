@@ -1,9 +1,9 @@
 import { useState } from "react";
-import useColumns from "../features/column/useColumns.ts";
-import useField from "../shared/hooks/useField.ts";
-import useTasks from "../features/task/useTasks.ts";
+import useColumns from "../column/useColumns.ts";
+import useField from "../../shared/hooks/useField.ts";
+import useTasks from "./useTasks.ts";
 import { useParams } from "react-router-dom";
-import { useSubtasks } from "../features/subtask/useSubtasks.ts";
+import { useSubtasks } from "../subtask/useSubtasks.ts";
 
 const TaskForm = () => {
   const [field, setField] = useState([""]);

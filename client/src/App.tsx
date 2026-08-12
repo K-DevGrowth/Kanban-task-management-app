@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Board from "./components/Board";
-import Sidebar from "./components/Sidebar";
-import { useAuth } from "./context/AuthContext";
-import SignIn from "./components/SignIn";
+import Board from "./features/board/Board.tsx";
+import Sidebar from "./layout/Sidebar";
+import { useAuth } from "./features/auth/AuthContext.tsx";
+import SignIn from "./features/auth/SignIn.tsx";
 
 const App = () => {
   const { user, loading } = useAuth();

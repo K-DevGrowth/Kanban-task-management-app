@@ -3,7 +3,7 @@ import {
   createSubtask,
   getAllSubtasks,
   updateSubtask,
-} from "../services/subtaskService";
+} from "./subtaskService.ts";
 
 export const useSubtasks = ({ taskId }: { taskId?: string } = {}) => {
   const queryClient = useQueryClient();

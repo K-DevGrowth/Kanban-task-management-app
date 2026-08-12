@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createColumn, getAllColumns } from "../services/columnService";
+import { createColumn, getAllColumns } from "./columnService.ts";
 
 const useColumns = ({ boardId }: { boardId: string }) => {
   const queryClient = useQueryClient();

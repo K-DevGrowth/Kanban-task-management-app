@@ -1,5 +1,5 @@
-import BoardHeader from "./BoardHeader";
-import ColumnContainer from "./ColumnContainer";
+import BoardHeader from "./BoardHeader.tsx";
+import ColumnContainer from "../column/ColumnContainer.tsx";
 
 const Board = () => {
   return (

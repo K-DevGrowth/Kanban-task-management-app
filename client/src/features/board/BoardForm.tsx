@@ -1,5 +1,5 @@
-import useBoards from "../features/board/useBoards.ts";
-import useField from "../shared/hooks/useField.ts";
+import useBoards from "./useBoards.ts";
+import useField from "../../shared/hooks/useField.ts";
 
 const BoardForm = () => {
   const { createBoard } = useBoards();

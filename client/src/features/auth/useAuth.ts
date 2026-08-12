@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signIn, signUp } from "../services/authService";
-import { useAuth } from "../context/AuthContext.tsx";
+import { signIn, signUp } from "./authService.ts";
+import { useAuth } from "./AuthContext.tsx";
 
 const useAuthMutations = () => {
   const queryClient = useQueryClient();
